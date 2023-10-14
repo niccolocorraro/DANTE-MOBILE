@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour{
+public class Player : MonoBehaviour {
     public float speed;
     Rigidbody2D rigidbody;
+    private Vector2 direzioneMossa;
 
     // Start is called before the first frame update
     void Start()
@@ -12,13 +13,34 @@ public class Player : MonoBehaviour{
         rigidbody = GetComponent<Rigidbody2D>();
     }
 
+    void InputProc()
+    {
+        float orizzontale = Input.GetAxis("Horizontal");
+        float verticale = Input.GetAxis("Vertical");
+
+        direzioneMossa = new Vector2(orizzontale, verticale).normalized;
+
+    }
+
+    void Move()
+    {
+
+        rigidbody.velocity = new Vector2(direzioneMossa.x * speed, direzioneMossa.y * speed);
+
+    }
+
+    void FixedUpdate()
+    {
+        Move();
+    }
     // Update is called once per frame
     void Update()
     {
-     float horizontal = Input.GetAxis("Horizontal");
-     float vertical = Input.GetAxis("Vertical");
 
-     rigidbody.velocity = new Vector3(horizontal*speed, vertical*speed,0);   
-    } 
-    
+        InputProc();
+
+    }
 }
+
+
+    
